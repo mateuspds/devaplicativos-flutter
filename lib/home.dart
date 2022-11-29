@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:devapp/Functon/functios.dart';
 import 'package:devapp/componentes/textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:devapp/registration_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -20,20 +22,15 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    bool logado = false;
+    bool logado = true;
     //
-    void doLogin(BuildContext context) async {
+    Future<bool> doLogin() async {
       try {
-        FirebaseAuth.instance.signInWithEmailAndPassword(
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: email.text, password: senha.text);
-        setState(() {
-          logado = true;
-        });
-      } on FirebaseAuthException catch (e) {
-        print(e.toString());
-        setState(() {
-          logado = false;
-        });
+        return true;
+      } catch (e) {
+        return false;
       }
     }
 
@@ -88,13 +85,13 @@ class _HomeState extends State<Home> {
                     textStyle: const TextStyle(fontSize: 22)),
                 onPressed: () async {
                   if (_formkey.currentState!.validate()) {
-                    doLogin(context);
-                    if (logado) {
+                   bool a = await doLogin();
+                    if (a) {
                       showDialog(
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: const Text("login realizado"),
+                              title: const Text("Login realizado"),
                               actions: [
                                 TextButton(
                                     onPressed: () {
@@ -109,7 +106,7 @@ class _HomeState extends State<Home> {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: const Text("erro ao realizar o login"),
+                              title: const Text("erro ao fazer o login"),
                               actions: [
                                 TextButton(
                                     onPressed: () {
@@ -120,10 +117,6 @@ class _HomeState extends State<Home> {
                             );
                           });
                     }
-                    setState(() {
-                      email.clear();
-                      senha.clear();
-                    });
                   }
                 },
                 child: const Text("Login"),
@@ -142,11 +135,8 @@ class _HomeState extends State<Home> {
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.all(10),
                     textStyle: const TextStyle(fontSize: 22)),
-                onPressed: () async {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => RegistrationPage()));
+                onPressed: () {
+                  Navigator.of(context).pushNamed("/cadastro");
                 },
                 child: const Text("Cadastre-se"),
               ),
