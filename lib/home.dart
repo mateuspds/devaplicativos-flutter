@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:devapp/componentes/textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:devapp/registration_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -128,7 +129,29 @@ class _HomeState extends State<Home> {
                 child: const Text("Login"),
               ),
             ),
-          )
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: double.infinity,
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(10)),
+              child: TextButton(
+                style: TextButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.all(10),
+                    textStyle: const TextStyle(fontSize: 22)),
+                onPressed: () async {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => RegistrationPage()));
+                },
+                child: const Text("Cadastre-se"),
+              ),
+            ),
+          ),
         ],
       ),
     ));
