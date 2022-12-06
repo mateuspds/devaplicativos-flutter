@@ -27,7 +27,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         FirebaseFirestore.instance.collection("Usuarios");
     Future<bool> cadastrar() async {
       try {
-        FirebaseAuth.instance
+      await  FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email.text, password: senha.text)
             .then(
               (value) => users.add({

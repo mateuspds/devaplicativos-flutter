@@ -13,14 +13,34 @@ class Animal extends StatefulWidget {
 class _AnimalState extends State<Animal> {
   @override
   Widget build(BuildContext context) {
-  FirebaseFirestore.instance.collection("Usuarios");
-
-  final TextEditingController tipoAnimal = TextEditingController();
-  final TextEditingController nome = TextEditingController();
-  final TextEditingController idade = TextEditingController();
-  final TextEditingController sexo = TextEditingController();
+    final TextEditingController tipoAnimal = TextEditingController();
+    final TextEditingController nome = TextEditingController();
+    final TextEditingController idade = TextEditingController();
+    final TextEditingController sexo = TextEditingController();
     final _formKey = GlobalKey<FormState>();
+
+    CollectionReference animais =
+        FirebaseFirestore.instance.collection("Animais");
+
+    Future<bool> cadastrarAnimal() async {
+      try {
+        await animais.add({
+          "tipo do animal": tipoAnimal.text,
+          "nome": nome.text,
+          "idade": idade.text,
+          "sexo": sexo.text,
+        });
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+
     return Scaffold(
+      appBar: AppBar(
+        title:const Text("cadastro do animal"),
+        centerTitle: true,
+      ),
       body: Form(
         key: _formKey,
         child: Container(
@@ -39,7 +59,7 @@ class _AnimalState extends State<Animal> {
                         fontSize: 25),
                   ),
                 ),
-                 CustomTextField(
+                CustomTextField(
                   nometextedintcontroler: tipoAnimal,
                   teclado: TextInputType.emailAddress,
                   label: "tipo animal",
@@ -59,7 +79,7 @@ class _AnimalState extends State<Animal> {
                   osbscure: false,
                   icon: Icons.person_pin,
                 ),
-               
+
                 CustomTextField(
                   nometextedintcontroler: sexo,
                   teclado: TextInputType.emailAddress,
@@ -79,8 +99,44 @@ class _AnimalState extends State<Animal> {
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.all(10),
                           textStyle: const TextStyle(fontSize: 22)),
-                      onPressed: (){},
-                      child: const Text("Cadastrar"),
+                      onPressed: () async {
+                        bool a =await cadastrarAnimal();
+                        if (a) {
+                          showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text("cadastro realizado"),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text("fechar"))
+                                    ],
+                                  );
+                                });
+                          
+                        } else {
+                           showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title:
+                                        const Text("erro ao criar o animal"),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text("fechar"))
+                                    ],
+                                  );
+                                });
+                        }
+
+                      },
+                      child: const Text("Cadastrar Animal"),
                     ),
                   ),
                 ),
