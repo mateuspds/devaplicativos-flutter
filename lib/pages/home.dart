@@ -24,6 +24,11 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final logado = Provider.of<Usuario>(context, listen: false);
+
+    void usuarioLogado() {
+      Navigator.of(context).pushReplacementNamed(Rotas.telaInicial);
+    }
+
     Future<bool> doLogin() async {
       try {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -88,7 +93,7 @@ class _HomeState extends State<Home> {
                   if (_formkey.currentState!.validate()) {
                     bool a = await doLogin();
                     if (a) {
-                      Navigator.pushNamed(context,Rotas.telaInicial);
+                      usuarioLogado();
                     } else {
                       showDialog(
                           context: context,
