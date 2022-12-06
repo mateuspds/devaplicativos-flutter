@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'Functon/functios.dart';
-import 'componentes/textfield.dart';
+import 'package:uuid/uuid.dart';
+import '../Functon/functios.dart';
+import '../componentes/textfield.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({Key? key}) : super(key: key);
@@ -21,12 +23,23 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
-    Future<bool> Cadastrar() async {
+    CollectionReference users =
+        FirebaseFirestore.instance.collection("Usuarios");
+    Future<bool> cadastrar() async {
       try {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: email.text, password: senha.text);
+        FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email.text, password: senha.text)
+            .then(
+              (value) => users.add({
+                "nome": nome.text,
+                "email": email.text,
+                "idade": idade.text,
+                "senha": senha.text,
+              }),
+            );
+
         return true;
-      } catch (e) {
+      } on FirebaseAuthException catch (e) {
         return false;
       }
     }
@@ -92,8 +105,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               textStyle: const TextStyle(fontSize: 22)),
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                            bool provider = await  Cadastrar();
-                              if (provider) {
+                              bool a = await cadastrar();
+                              if (a) {
                                 showDialog(
                                     context: context,
                                     builder: (context) {

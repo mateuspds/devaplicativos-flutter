@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:devapp/Functon/functios.dart';
 import 'package:devapp/componentes/textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:devapp/registration_page.dart';
+import 'package:devapp/pages/registration_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
