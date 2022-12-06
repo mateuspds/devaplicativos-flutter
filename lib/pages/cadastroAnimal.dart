@@ -44,14 +44,14 @@ class _AnimalState extends State<Animal> {
       body: Form(
         key: _formKey,
         child: Container(
-          alignment: Alignment.center,
+          // alignment: Alignment.center,
           child: SingleChildScrollView(
             child: Column(
               children: [
                 const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
-                    "CADASTRO Animal ",
+                    " ",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -64,13 +64,13 @@ class _AnimalState extends State<Animal> {
                   teclado: TextInputType.emailAddress,
                   label: "tipo animal",
                   osbscure: false,
-                  icon: Icons.email,
+                  icon: Icons.api_outlined,
                 ),
                 CustomTextField(
                   nometextedintcontroler: nome,
                   teclado: TextInputType.name,
                   label: "nome",
-                  icon: Icons.person,
+                  icon: Icons.biotech_rounded,
                 ),
                 CustomTextField(
                   nometextedintcontroler: idade,
@@ -85,7 +85,7 @@ class _AnimalState extends State<Animal> {
                   teclado: TextInputType.emailAddress,
                   label: "sexo",
                   osbscure: true,
-                  icon: Icons.password,
+                  icon: Icons.biotech,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -141,25 +141,7 @@ class _AnimalState extends State<Animal> {
                   ),
                 ),
                 //voltar usuario
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    width: double.infinity,
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                          backgroundColor: Colors.black,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.all(10),
-                          textStyle: const TextStyle(fontSize: 22)),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text("Voltar"),
-                    ),
-                  ),
-                ),
+               
               ],
             ),
           ),

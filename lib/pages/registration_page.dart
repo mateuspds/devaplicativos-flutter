@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:devapp/routes/rotas.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,12 +24,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
+    void navegao() {
+      Navigator.of(context).popAndPushNamed(Rotas.telaInicial);
+    }
+
     CollectionReference users =
         FirebaseFirestore.instance.collection("Usuarios");
     Future<bool> cadastrar() async {
       try {
-      await  FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: email.text, password: senha.text)
+        await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email.text, password: senha.text)
             .then(
               (value) => users.add({
                 "nome": nome.text,
@@ -44,7 +49,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
       }
     }
 
-    final media = MediaQuery.of(context).size;
     return Scaffold(
       body: Form(
         key: _formKey,
@@ -107,20 +111,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         if (_formKey.currentState!.validate()) {
                           bool a = await cadastrar();
                           if (a) {
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: const Text("cadastro realizado"),
-                                    actions: [
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text("fechar"))
-                                    ],
-                                  );
-                                });
+                            navegao();
                           } else {
                             showDialog(
                                 context: context,
