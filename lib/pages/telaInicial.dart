@@ -1,3 +1,4 @@
+import 'package:devapp/routes/rotas.dart';
 import 'package:flutter/material.dart';
 
 class TelaInicial extends StatelessWidget {
@@ -12,16 +13,16 @@ class TelaInicial extends StatelessWidget {
       drawer: Drawer(
         child: ListView(
           children: [
-          const  DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.purple
-              ),
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Colors.purple),
               child: Center(child: Text("lista de funções")),
             ),
             ListTile(
               leading: Icon(Icons.animation),
               title: Text("cadastrar animal"),
-              onTap: (){},
+              onTap: () {
+                Navigator.of(context).pushNamed(Rotas.cadastroAnimal);
+              },
             )
           ],
         ),
