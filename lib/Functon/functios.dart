@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-class Funcao with ChangeNotifier {
+class Usuario with ChangeNotifier {
   bool logado = false;
 
   void usarioLOgado() {

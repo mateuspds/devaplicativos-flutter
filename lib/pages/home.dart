@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:devapp/Functon/functios.dart';
 import 'package:devapp/componentes/textfield.dart';
+import 'package:devapp/routes/rotas.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:devapp/pages/registration_page.dart';
 import 'package:flutter/material.dart';
@@ -22,12 +23,12 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    bool logado = true;
-    //
+    final logado = Provider.of<Usuario>(context, listen: false);
     Future<bool> doLogin() async {
       try {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: email.text, password: senha.text);
+        logado.usarioLOgado();
         return true;
       } catch (e) {
         return false;
@@ -85,22 +86,9 @@ class _HomeState extends State<Home> {
                     textStyle: const TextStyle(fontSize: 22)),
                 onPressed: () async {
                   if (_formkey.currentState!.validate()) {
-                   bool a = await doLogin();
+                    bool a = await doLogin();
                     if (a) {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text("Login realizado"),
-                              actions: [
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text("fechar"))
-                              ],
-                            );
-                          });
+                      Navigator.pushNamed(context,Rotas.telaInicial);
                     } else {
                       showDialog(
                           context: context,
@@ -136,7 +124,7 @@ class _HomeState extends State<Home> {
                     padding: const EdgeInsets.all(10),
                     textStyle: const TextStyle(fontSize: 22)),
                 onPressed: () {
-                  Navigator.of(context).pushNamed("/cadastro");
+                  Navigator.of(context).pushNamed(Rotas.cadastro);
                 },
                 child: const Text("Cadastre-se"),
               ),
