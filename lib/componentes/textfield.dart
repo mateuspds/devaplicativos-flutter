@@ -28,13 +28,13 @@ class CustomTextField extends StatelessWidget {
             ),
             labelText: label,
             enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide:const BorderSide(
                   width: 3,
                   color: Colors.black,
                 ),
                 borderRadius: BorderRadius.circular(10)),
             focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide:const BorderSide(
                   width: 3,
                   color: Colors.deepOrange,
                 ),

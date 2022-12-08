@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:devapp/componentes/customToggle.dart';
 import 'package:flutter/material.dart';
 
 import '../componentes/textfield.dart';
@@ -11,39 +12,55 @@ class Animal extends StatefulWidget {
 }
 
 class _AnimalState extends State<Animal> {
-  bool booltipoanimalca = false;
-  bool booltipoanimalga = false;
   TextEditingController nomecontroler = TextEditingController();
-
-  bool boolsexoanimalMA = false;
-  bool boolsexoanimalFE = false;
-
-  bool porteGrade = false;
-  bool porteMedio = false;
-  bool portePequeno = false;
-  String tipoAnimal = "";
-  String idade = "";
-  String sexo = "";
-  String porte = "";
+  String tipoAnimal = "cachorro";
+  String idade = "filhote";
+  String sexo = "macho";
+  String porte = "pequeno";
+  List<bool> selectIdadeBool = [true, false, false];
+  List<String> selectIdadeString = ["filhote", "adulto", "idoso"];
+  List<bool> selectPorte = [true, false, false];
+  List<String> selectPorteString = ["pequeno", "medio", "grande"];
+  List<bool> _selectSexo = [true, false];
+  List<String> selectSexo = ["Macho", "Femea"];
+  List<bool> selectEspecieBool = [true, false];
+  List<String> selectEspecie = ["Cachorro", "Gato"];
 
   @override
   Widget build(BuildContext context) {
+    //
+    //
     CollectionReference animais =
         FirebaseFirestore.instance.collection("Animais");
 
     Future<bool> cadastrarAnimal() async {
       try {
         await animais.add({
-          "tipo do animal": tipoAnimal,
           "nome": nomecontroler.text,
+          "tipo do animal": tipoAnimal,
           "idade": idade,
           "sexo": sexo,
-          "porte":porte,
+          "porte": porte,
         });
         return true;
       } catch (e) {
         return false;
       }
+    }
+
+    //fuction de setstate de animal
+    void mudarString(int newindex, List<bool> booleano,
+        List<String> stringtexto, String mudarstring) {
+      setState(() {
+        for (int index = 0; index < booleano.length; index++) {
+          if (index == newindex) {
+            booleano[index] = true;
+            mudarstring = stringtexto[newindex];
+          } else {
+            booleano[index] = false;
+          }
+        }
+      });
     }
 
     return Scaffold(
@@ -68,13 +85,12 @@ class _AnimalState extends State<Animal> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.grey,
-
                 ),
                 height: 80,
                 width: double.infinity,
-                child: Center(child: Text("?")),
+                child: const Center(child: Text("?")),
               ),
             ),
 
@@ -84,82 +100,41 @@ class _AnimalState extends State<Animal> {
                 teclado: TextInputType.name,
                 label: "nome",
                 icon: Icons.person),
-            Text("especie"),
-            CheckboxListTile(
-                title: Text("cachorro"),
-                value: booltipoanimalca,
-                onChanged: (value) {
-                  setState(() {
-                    booltipoanimalca = !booltipoanimalca;
-                    tipoAnimal = "cachorro";
-                  });
-                }),
-            CheckboxListTile(
-                title: Text("gato"),
-                value: booltipoanimalga,
-                onChanged: (value) {
-                  setState(() {
-                    booltipoanimalga = !booltipoanimalga;
-                    tipoAnimal = "gato";
-                  });
-                }),
+            const Text("especie"),
+            //especie
+            CustomTogle(
+                FuctionEle: (int newindex) {
+                  mudarString(
+                      newindex, selectEspecieBool, selectEspecie, tipoAnimal);
+                },
+                selectTexto: selectEspecie,
+                selectBool: selectEspecieBool),
 
+            //sexo do animal
             Text("sexo"),
-            CheckboxListTile(
-                title: Text("masculino"),
-                value: boolsexoanimalMA,
-                onChanged: (value) {
-                  setState(() {
-                    boolsexoanimalMA = !boolsexoanimalMA;
-                    sexo = "masculino";
-                  });
-                }),
-            CheckboxListTile(
-                title: Text("feminino"),
-                value: boolsexoanimalFE,
-                onChanged: (value) {
-                  setState(() {
-                    boolsexoanimalFE = !boolsexoanimalFE;
-                    sexo = "feminino";
-                  });
-                }),
-
-            Text("porte"),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("pequeno"),
-                Checkbox(
-                    value: portePequeno,
-                    onChanged: (value) {
-                      setState(() {
-                        portePequeno = !portePequeno;
-                        porte = "pequeno";
-                      });
-                    }),
-              //medio
-               Text("medio"),
-                Checkbox(
-                    value: porteMedio,
-                    onChanged: (value) {
-                      setState(() {
-                        porteMedio = !porteMedio;
-                        porte = "medio";
-                      });
-                    }),
-
-                 Text("grande"),
-                Checkbox(
-                    value: porteGrade,
-                    onChanged: (value) {
-                      setState(() {
-                        porteGrade = !porteGrade;
-                        porte = "grande";
-                      });
-                    })
-              ],
-            ),
-            // Checkbox(value: value, onChanged: onChanged)
+            CustomTogle(
+                FuctionEle: (int newindex) {
+                  mudarString(newindex, _selectSexo, selectSexo, sexo);
+                },
+                selectTexto: selectSexo,
+                selectBool: _selectSexo),
+            // porte
+            const Text("porte"),
+            CustomTogle(
+                FuctionEle: (int newindex) {
+                  mudarString(newindex, selectPorte, selectPorteString, porte);
+                },
+                selectTexto: selectPorteString,
+                selectBool: selectPorte),
+            // idade
+            const Text("idade"),
+            CustomTogle(
+                FuctionEle: (int newindex) {
+                  mudarString(
+                      newindex, selectIdadeBool, selectIdadeString, idade);
+                },
+                selectTexto: selectIdadeString,
+                selectBool: selectIdadeBool),
 
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -174,7 +149,9 @@ class _AnimalState extends State<Animal> {
                       padding: const EdgeInsets.all(10),
                       textStyle: const TextStyle(fontSize: 22)),
                   onPressed: () async {
-                    bool a = await cadastrarAnimal();
+                    try {
+                        if (nomecontroler.text.isNotEmpty) {
+                       bool a = await cadastrarAnimal();
                     if (a) {
                       showDialog(
                           context: context,
@@ -184,13 +161,20 @@ class _AnimalState extends State<Animal> {
                               actions: [
                                 TextButton(
                                     onPressed: () {
-                                      Navigator.pop(context);
+                                        nomecontroler.clear();
+                                        Navigator.pop(context);
+                                    
                                     },
                                     child: const Text("fechar"))
                               ],
                             );
                           });
-                    } else {
+                    }
+                      
+                    }
+                      
+                    } catch (e) {
+                       
                       showDialog(
                           context: context,
                           builder: (context) {
@@ -206,7 +190,12 @@ class _AnimalState extends State<Animal> {
                             );
                           });
                     }
-                  },
+                    },
+
+                  
+
+                   
+                  
                   child: const Text("Cadastrar Animal"),
                 ),
               ),
