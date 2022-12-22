@@ -8,7 +8,7 @@ class TelaInicial extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("tela inicial"),
+        title:const Text("tela inicial"),
       ),
       drawer: Drawer(
         child: ListView(
@@ -19,10 +19,17 @@ class TelaInicial extends StatelessWidget {
               child: Center(child: Text("lista de funções")),
             ),
             ListTile(
-              leading: Icon(Icons.animation),
-              title: Text("cadastrar animal"),
+              leading:const Icon(Icons.animation),
+              title:const Text("cadastrar animal"),
               onTap: () {
                 Navigator.of(context).pushNamed(Rotas.cadastroAnimal);
+              },
+            ),
+            ListTile(
+              leading:const Icon(Icons.downhill_skiing_outlined),
+              title:const Text("meus animais"),
+              onTap: () {
+                Navigator.of(context).pushNamed(Rotas.meusAnimais);
               },
             )
           ],

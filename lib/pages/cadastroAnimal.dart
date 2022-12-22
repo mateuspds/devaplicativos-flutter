@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:devapp/Functon/functios.dart';
 import 'package:devapp/componentes/customToggle.dart';
+import 'package:devapp/componentes/radio.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../componentes/textfield.dart';
 
@@ -13,23 +16,15 @@ class Animal extends StatefulWidget {
 
 class _AnimalState extends State<Animal> {
   TextEditingController nomecontroler = TextEditingController();
-  String tipoAnimal = "cachorro";
-  String idade = "filhote";
-  String sexo = "macho";
-  String porte = "pequeno";
-  List<bool> selectIdadeBool = [true, false, false];
-  List<String> selectIdadeString = ["filhote", "adulto", "idoso"];
-  List<bool> selectPorte = [true, false, false];
-  List<String> selectPorteString = ["pequeno", "medio", "grande"];
-  List<bool> _selectSexo = [true, false];
-  List<String> selectSexo = ["Macho", "Femea"];
-  List<bool> selectEspecieBool = [true, false];
-  List<String> selectEspecie = ["Cachorro", "Gato"];
+  String? selecionarSexo;
+  String? selecionarEspecie;
+  String? porte;
+  String? idade;
+  bool doacao = false;
 
   @override
   Widget build(BuildContext context) {
-    //
-    //
+    final providerUsur = Provider.of<Usuario>(context, listen: false);
     CollectionReference animais =
         FirebaseFirestore.instance.collection("Animais");
 
@@ -37,10 +32,11 @@ class _AnimalState extends State<Animal> {
       try {
         await animais.add({
           "nome": nomecontroler.text,
-          "tipo do animal": tipoAnimal,
-          "idade": idade,
-          "sexo": sexo,
+          "tipo do animal": selecionarEspecie,
+          "idade":idade ,
+          "sexo": selecionarSexo,
           "porte": porte,
+          "token": providerUsur.token,
         });
         return true;
       } catch (e) {
@@ -82,6 +78,14 @@ class _AnimalState extends State<Animal> {
                     fontSize: 25),
               ),
             ),
+
+            //nome
+            CustomTextField(
+                nometextedintcontroler: nomecontroler,
+                teclado: TextInputType.name,
+                label: "nome",
+                icon: Icons.person),
+
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -94,47 +98,121 @@ class _AnimalState extends State<Animal> {
               ),
             ),
 
-            //nome
-            CustomTextField(
-                nometextedintcontroler: nomecontroler,
-                teclado: TextInputType.name,
-                label: "nome",
-                icon: Icons.person),
-            const Text("especie"),
-            //especie
-            CustomTogle(
-                FuctionEle: (int newindex) {
-                  mudarString(
-                      newindex, selectEspecieBool, selectEspecie, tipoAnimal);
-                },
-                selectTexto: selectEspecie,
-                selectBool: selectEspecieBool),
+            //cadastro de animal
 
-            //sexo do animal
-            Text("sexo"),
-            CustomTogle(
-                FuctionEle: (int newindex) {
-                  mudarString(newindex, _selectSexo, selectSexo, sexo);
-                },
-                selectTexto: selectSexo,
-                selectBool: _selectSexo),
-            // porte
-            const Text("porte"),
-            CustomTogle(
-                FuctionEle: (int newindex) {
-                  mudarString(newindex, selectPorte, selectPorteString, porte);
-                },
-                selectTexto: selectPorteString,
-                selectBool: selectPorte),
-            // idade
-            const Text("idade"),
-            CustomTogle(
-                FuctionEle: (int newindex) {
-                  mudarString(
-                      newindex, selectIdadeBool, selectIdadeString, idade);
-                },
-                selectTexto: selectIdadeString,
-                selectBool: selectIdadeBool),
+            //especie
+
+            Row(
+              children: [
+                RadioCustom(
+                  selecionar: selecionarEspecie,
+                  texto: "cachorro",
+                  acao: ((value) {
+                    setState(() {
+                      selecionarEspecie = value.toString();
+                    });
+                  }),
+                ),
+                  RadioCustom(
+                  selecionar: selecionarEspecie,
+                  texto: "gato",
+                  acao: ((value) {
+                    setState(() {
+                      selecionarEspecie = value.toString();
+                    });
+                  }),
+                )
+              ],
+            ),
+
+            //sexo
+            Row(
+              children: [
+                RadioCustom(
+                    selecionar: selecionarSexo,
+                    texto: "macho",
+                    acao: (value) {
+                      setState(() {
+                        selecionarSexo = value.toString();
+                      });
+                    }),
+                RadioCustom(
+                    selecionar: selecionarSexo,
+                    texto: "Femea",
+                    acao: (value) {
+                      setState(() {
+                        selecionarSexo = value.toString();
+                      });
+                    }),
+              ],
+            ),
+
+            //porte
+              Row(
+              children: [
+                RadioCustom(
+                  selecionar: porte,
+                  texto: "pequeno",
+                  acao: ((value) {
+                    setState(() {
+                      porte = value.toString();
+                    });
+                  }),
+                ),
+                  RadioCustom(
+                  selecionar: porte,
+                  texto: "medio",
+                  acao: ((value) {
+                    setState(() {
+                      porte = value.toString();
+                    });
+                  }),
+                ),
+                 RadioCustom(
+                  selecionar: porte,
+                  texto: "grande",
+                  acao: ((value) {
+                    setState(() {
+                      porte = value.toString();
+                    });
+                  }),
+                ),
+              ],
+            ),
+                    //idade
+              Row(
+              children: [
+                RadioCustom(
+                  selecionar: idade,
+                  texto: "filhote",
+                  acao: ((value) {
+                    setState(() {
+                      idade = value.toString();
+                    });
+                  }),
+                ),
+                  RadioCustom(
+                  selecionar: idade,
+                  texto: "adulto",
+                  acao: ((value) {
+                    setState(() {
+                      idade = value.toString();
+                    });
+                  }),
+                ),
+                 RadioCustom(
+                  selecionar: idade,
+                  texto: "idoso",
+                  acao: ((value) {
+                    setState(() {
+                      idade = value.toString();
+                    });
+                  }),
+                ),
+              ],
+            ),
+
+            //final do cadastro de animal
 
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -150,31 +228,27 @@ class _AnimalState extends State<Animal> {
                       textStyle: const TextStyle(fontSize: 22)),
                   onPressed: () async {
                     try {
-                        if (nomecontroler.text.isNotEmpty) {
-                       bool a = await cadastrarAnimal();
-                    if (a) {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text("cadastro realizado"),
-                              actions: [
-                                TextButton(
-                                    onPressed: () {
-                                        nomecontroler.clear();
-                                        Navigator.pop(context);
-                                    
-                                    },
-                                    child: const Text("fechar"))
-                              ],
-                            );
-                          });
-                    }
-                      
-                    }
-                      
+                      if (nomecontroler.text.isNotEmpty) {
+                        bool a = await cadastrarAnimal();
+                        if (a) {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text("cadastro realizado"),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          nomecontroler.clear();
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("fechar"))
+                                  ],
+                                );
+                              });
+                        }
+                      }
                     } catch (e) {
-                       
                       showDialog(
                           context: context,
                           builder: (context) {
@@ -190,12 +264,7 @@ class _AnimalState extends State<Animal> {
                             );
                           });
                     }
-                    },
-
-                  
-
-                   
-                  
+                  },
                   child: const Text("Cadastrar Animal"),
                 ),
               ),

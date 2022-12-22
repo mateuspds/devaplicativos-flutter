@@ -3,7 +3,6 @@ import 'package:devapp/routes/rotas.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
 import '../Functon/functios.dart';
 import '../componentes/textfield.dart';
 
@@ -24,6 +23,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
+    final providerUsuario = Provider.of<Usuario>(context, listen: false);
+
     void navegao() {
       Navigator.of(context).popAndPushNamed(Rotas.telaInicial);
     }
@@ -33,7 +34,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
     Future<bool> cadastrar() async {
       try {
         await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: email.text, password: senha.text)
+            .createUserWithEmailAndPassword(
+                email: email.text, password: senha.text)
+            .then((value) => providerUsuario.addToken(value.user!.uid))
             .then(
               (value) => users.add({
                 "nome": nome.text,
@@ -42,6 +45,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 "senha": senha.text,
               }),
             );
+        providerUsuario.usarioLOgado();
 
         return true;
       } on FirebaseAuthException catch (e) {

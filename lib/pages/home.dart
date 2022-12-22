@@ -5,6 +5,7 @@ import 'package:devapp/componentes/textfield.dart';
 import 'package:devapp/routes/rotas.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:devapp/pages/registration_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +24,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final logado = Provider.of<Usuario>(context, listen: false);
+    final providerUsuario = Provider.of<Usuario>(context, listen: false);
 
     void usuarioLogado() {
       Navigator.of(context).pushReplacementNamed(Rotas.telaInicial);
@@ -31,9 +32,10 @@ class _HomeState extends State<Home> {
 
     Future<bool> doLogin() async {
       try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: email.text, password: senha.text);
-        logado.usarioLOgado();
+        await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email.text, password: senha.text)
+            .then((value) => providerUsuario.addToken(value.user!.uid));
+           providerUsuario.usarioLOgado();
         return true;
       } catch (e) {
         return false;

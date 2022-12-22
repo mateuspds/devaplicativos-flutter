@@ -3,4 +3,5 @@ class Rotas {
   static const cadastro = '/cadastro';
   static const telaInicial = '/telainicial';
   static const cadastroAnimal = '/animal';
+  static const meusAnimais = '/meusAnimais';
 }

@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
 
-class CustomRadio extends StatelessWidget {
-  final List<String> listaString;
-  final Function(dynamic value) tentarFunction;
-  const CustomRadio({Key? key, required this.listaString, required this.tentarFunction}) : super(key: key);
+class RadioCustom extends StatelessWidget {
+  final String? selecionar;
+  final String texto;
+  final Function(dynamic value) acao;
+  const RadioCustom(
+      {Key? key,
+      required this.selecionar,
+      required this.texto,
+      required this.acao})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-      ListView(
-        children: listaString
-            .map((e) => ListTile(
-                  title: Text(e),
-                  leading: Radio(
-                      value: e,
-                      groupValue: listaString,
-                      onChanged: tentarFunction),
-                ))
-            .toList(),
-      )
-    ]);
+    return Flexible(
+      fit: FlexFit.loose,
+      child: RadioListTile(
+          contentPadding: EdgeInsets.zero,
+          title: Text(texto),
+          
+          value: texto,
+          groupValue: selecionar,
+          onChanged: acao,
+          ),
+    );
   }
 }
