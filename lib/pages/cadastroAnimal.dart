@@ -33,10 +33,11 @@ class _AnimalState extends State<Animal> {
         await animais.add({
           "nome": nomecontroler.text,
           "tipo do animal": selecionarEspecie,
-          "idade":idade ,
+          "idade": idade,
           "sexo": selecionarSexo,
           "porte": porte,
-          "token": providerUsur.token,
+          "dono": providerUsur.token,
+          "doacao": doacao,
         });
         return true;
       } catch (e) {
@@ -66,6 +67,7 @@ class _AnimalState extends State<Animal> {
       ),
       body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             const Padding(
               padding: EdgeInsets.all(8.0),
@@ -101,7 +103,7 @@ class _AnimalState extends State<Animal> {
             //cadastro de animal
 
             //especie
-
+           Text("Especie"),
             Row(
               children: [
                 RadioCustom(
@@ -113,7 +115,7 @@ class _AnimalState extends State<Animal> {
                     });
                   }),
                 ),
-                  RadioCustom(
+                RadioCustom(
                   selecionar: selecionarEspecie,
                   texto: "gato",
                   acao: ((value) {
@@ -126,6 +128,7 @@ class _AnimalState extends State<Animal> {
             ),
 
             //sexo
+            Text("sexo"),
             Row(
               children: [
                 RadioCustom(
@@ -148,7 +151,8 @@ class _AnimalState extends State<Animal> {
             ),
 
             //porte
-              Row(
+            Text("Porte"),
+            Row(
               children: [
                 RadioCustom(
                   selecionar: porte,
@@ -159,7 +163,7 @@ class _AnimalState extends State<Animal> {
                     });
                   }),
                 ),
-                  RadioCustom(
+                RadioCustom(
                   selecionar: porte,
                   texto: "medio",
                   acao: ((value) {
@@ -168,7 +172,7 @@ class _AnimalState extends State<Animal> {
                     });
                   }),
                 ),
-                 RadioCustom(
+                RadioCustom(
                   selecionar: porte,
                   texto: "grande",
                   acao: ((value) {
@@ -179,8 +183,9 @@ class _AnimalState extends State<Animal> {
                 ),
               ],
             ),
-                    //idade
-              Row(
+            //idade
+            Text("Idade"),
+            Row(
               children: [
                 RadioCustom(
                   selecionar: idade,
@@ -191,7 +196,7 @@ class _AnimalState extends State<Animal> {
                     });
                   }),
                 ),
-                  RadioCustom(
+                RadioCustom(
                   selecionar: idade,
                   texto: "adulto",
                   acao: ((value) {
@@ -200,7 +205,7 @@ class _AnimalState extends State<Animal> {
                     });
                   }),
                 ),
-                 RadioCustom(
+                RadioCustom(
                   selecionar: idade,
                   texto: "idoso",
                   acao: ((value) {
@@ -209,6 +214,31 @@ class _AnimalState extends State<Animal> {
                     });
                   }),
                 ),
+              ],
+            ),
+
+            //doacao
+            Text("Doacao"),
+            Row(
+              children: [
+                RadioCustom(
+                  selecionar: doacao.toString(),
+                  texto: "true",
+                  acao: ((value) {
+                    setState(() {
+                      doacao = true;
+                    });
+                  }),
+                ),
+                RadioCustom(
+                  selecionar: doacao.toString(),
+                  texto: "false",
+                  acao: ((value) {
+                    setState(() {
+                      doacao = false;
+                    });
+                  }),
+                )
               ],
             ),
 
