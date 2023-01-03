@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devapp/Functon/functios.dart';
 import 'package:devapp/componentes/customToggle.dart';
 import 'package:devapp/componentes/radio.dart';
+import 'package:devapp/model/animal_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -30,15 +31,16 @@ class _AnimalState extends State<Animal> {
 
     Future<bool> cadastrarAnimal() async {
       try {
-        await animais.add({
-          "nome": nomecontroler.text,
-          "tipo do animal": selecionarEspecie,
-          "idade": idade,
-          "sexo": selecionarSexo,
-          "porte": porte,
-          "dono": providerUsur.token,
-          "doacao": doacao,
-        });
+        AnimalModel animal = AnimalModel(
+          tipoDoAnimal: selecionarEspecie!,
+          sexo: selecionarSexo!,
+          nome: nomecontroler.text,
+          idade: idade!,
+          porte: porte!,
+          dono: providerUsur.idUsuario!,
+          doacao: doacao,
+        );
+        await animais.add(animal.toMap());
         return true;
       } catch (e) {
         return false;
@@ -103,7 +105,7 @@ class _AnimalState extends State<Animal> {
             //cadastro de animal
 
             //especie
-           Text("Especie"),
+            Text("Especie"),
             Row(
               children: [
                 RadioCustom(

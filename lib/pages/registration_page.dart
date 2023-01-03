@@ -34,9 +34,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     Future<bool> cadastrar() async {
       try {
         await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-                email: email.text, password: senha.text)
-            .then((value) => providerUsuario.addToken(value.user!.uid))
+            .signInWithEmailAndPassword(email: email.text, password: senha.text)
             .then(
               (value) => users.add({
                 "nome": nome.text,
@@ -45,7 +43,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 "senha": senha.text,
               }),
             );
-        providerUsuario.usarioLOgado();
 
         return true;
       } on FirebaseAuthException catch (e) {

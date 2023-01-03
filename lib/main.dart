@@ -1,4 +1,3 @@
-
 import 'package:devapp/Functon/functios.dart';
 import 'package:devapp/pages/cadastroAnimal.dart';
 import 'package:devapp/pages/meusAnimais.dart';
@@ -25,16 +24,15 @@ void main() async {
           create: (_) => Usuario(),
         )
       ],
-      child:  MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: '/',
         routes: {
-          Rotas.home:(context) => const Home(),
-          Rotas.cadastro:(context) =>const RegistrationPage(),
-          Rotas.telaInicial:(context) => const TelaInicial(),
-          Rotas.cadastroAnimal:(context) => const Animal(),
-          Rotas.meusAnimais:(context) => const Meuanimais(),
-
+          Rotas.home: (context) => const Home(),
+          Rotas.cadastro: (context) => const RegistrationPage(),
+          Rotas.telaInicial: (context) => const TelaInicial(),
+          Rotas.cadastroAnimal: (context) => const Animal(),
+          Rotas.meusAnimais: (context) => Meuanimais(context: context),
         },
       ),
     ),
