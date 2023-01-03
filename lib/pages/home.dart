@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final logado = Provider.of<Usuario>(context, listen: false);
+    final logado = Provider.of<Usuario>(context, listen: true);
 
     void usuarioLogado() {
       Navigator.of(context).pushReplacementNamed(Rotas.telaInicial);
@@ -31,8 +31,12 @@ class _HomeState extends State<Home> {
 
     Future<bool> doLogin() async {
       try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: email.text, password: senha.text);
+        UserCredential userCredential = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+                email: email.text, password: senha.text);
+        if (userCredential.user!.uid != null) {
+          logado.updateIdUsuario = userCredential.user!.uid;
+        }
         logado.usarioLOgado();
         return true;
       } catch (e) {

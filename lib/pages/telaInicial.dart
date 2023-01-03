@@ -12,7 +12,6 @@ class TelaInicial extends StatelessWidget {
       ),
       drawer: Drawer(
         child: ListView(
-          padding: EdgeInsets.zero,
           children: [
             const DrawerHeader(
               decoration: BoxDecoration(color: Colors.purple),
@@ -24,7 +23,14 @@ class TelaInicial extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).pushNamed(Rotas.cadastroAnimal);
               },
-            )
+            ),
+            ListTile(
+              leading: Icon(Icons.animation),
+              title: Text("Meus animais"),
+              onTap: () {
+                Navigator.of(context).pushNamed(Rotas.listaAnimal);
+              },
+            ),
           ],
         ),
       ),

@@ -1,6 +1,6 @@
-
 import 'package:devapp/Functon/functios.dart';
 import 'package:devapp/pages/cadastroAnimal.dart';
+import 'package:devapp/pages/lista_animal.dart';
 import 'package:devapp/pages/registration_page.dart';
 import 'package:devapp/pages/telaInicial.dart';
 import 'package:devapp/routes/rotas.dart';
@@ -24,15 +24,15 @@ void main() async {
           create: (_) => Usuario(),
         )
       ],
-      child:  MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: '/',
         routes: {
-          Rotas.home:(context) => const Home(),
-          Rotas.cadastro:(context) =>const RegistrationPage(),
-          Rotas.telaInicial:(context) => const TelaInicial(),
-          Rotas.cadastroAnimal:(context) => const Animal()
-
+          Rotas.home: (context) => const Home(),
+          Rotas.cadastro: (context) => const RegistrationPage(),
+          Rotas.telaInicial: (context) => const TelaInicial(),
+          Rotas.cadastroAnimal: (context) => const Animal(),
+          Rotas.listaAnimal: (context) => const ListaAnimal(),
         },
       ),
     ),
