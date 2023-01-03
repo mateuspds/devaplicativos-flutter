@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devapp/Functon/functios.dart';
 import 'package:devapp/componentes/customToggle.dart';
 import 'package:devapp/componentes/radio.dart';
 import 'package:devapp/model/animal_model.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../componentes/textfield.dart';
@@ -16,6 +20,45 @@ class Animal extends StatefulWidget {
 }
 
 class _AnimalState extends State<Animal> {
+  //
+  XFile? img;
+  final FirebaseStorage storage = FirebaseStorage.instance;
+
+  Future getImage() async {
+    final ImagePicker _picker = ImagePicker();
+    XFile? image = await _picker.pickImage(source: ImageSource.camera);
+    return image;
+  }
+
+  Future getImageGalery() async {
+    final ImagePicker _picker = ImagePicker();
+    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    return image;
+  }
+
+  Future<void> upload(String path) async {
+    File file = File(path);
+
+    try {
+      String ref = 'Animal/Imgimg-${DateTime.now().toString()}';
+      await storage.ref(ref).putFile(file);
+    } on FirebaseException catch (e) {
+      throw Exception("erro ao upload de image");
+    }
+  }
+
+  mandandoImage() async {
+    if (img != null) {
+      await upload(img!.path);
+    }
+  }
+
+  //
+
+
+
+
+
   TextEditingController nomecontroler = TextEditingController();
   String? selecionarSexo;
   String? selecionarEspecie;
@@ -81,6 +124,34 @@ class _AnimalState extends State<Animal> {
                     color: Colors.black,
                     fontSize: 25),
               ),
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.camera_alt_outlined),
+                  onPressed: () async {
+                    final ImagePicker _picker = ImagePicker();
+                    XFile? image =
+                        await _picker.pickImage(source: ImageSource.camera);
+                    setState(() {
+                      img = image;
+                    });
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.file_copy_outlined),
+                  onPressed: () async {
+                    final ImagePicker _picker = ImagePicker();
+                    XFile? image =
+                        await _picker.pickImage(source: ImageSource.gallery);
+                    setState(() {
+                      img = image;
+                    });
+                  },
+                ),
+              ],
             ),
 
             //nome
