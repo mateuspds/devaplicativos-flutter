@@ -1,8 +1,6 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devapp/Functon/functios.dart';
-import 'package:devapp/componentes/customToggle.dart';
 import 'package:devapp/componentes/radio.dart';
 import 'package:devapp/model/animal_model.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -36,28 +34,24 @@ class _AnimalState extends State<Animal> {
     return image;
   }
 
-  Future<void> upload(String path) async {
+  Future<void> upload(String path, String nomeImage) async {
     File file = File(path);
 
     try {
-      String ref = 'Animal/Imgimg-${DateTime.now().toString()}';
+      String ref = 'Animal/$nomeImage';
       await storage.ref(ref).putFile(file);
     } on FirebaseException catch (e) {
       throw Exception("erro ao upload de image");
     }
   }
 
-  mandandoImage() async {
+  mandandoImage(String nome) async {
     if (img != null) {
-      await upload(img!.path);
+      await upload(img!.path, nome);
     }
   }
 
   //
-
-
-
-
 
   TextEditingController nomecontroler = TextEditingController();
   String? selecionarSexo;
@@ -83,7 +77,7 @@ class _AnimalState extends State<Animal> {
           dono: providerUsur.idUsuario!,
           doacao: doacao,
         );
-        await animais.add(animal.toMap());
+        await animais.add(animal.toMap()).then((value) => mandandoImage(value.id));
         return true;
       } catch (e) {
         return false;
