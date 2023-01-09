@@ -54,10 +54,15 @@ class _AnimalState extends State<Animal> {
   //
 
   TextEditingController nomecontroler = TextEditingController();
+  TextEditingController endcontroler = TextEditingController();
+  TextEditingController descri = TextEditingController();
   String? selecionarSexo;
   String? selecionarEspecie;
   String? porte;
   String? idade;
+  String? tempera;
+  String? saude;
+  String? necessidade;
   bool doacao = false;
   String idd = "";
 
@@ -68,11 +73,16 @@ class _AnimalState extends State<Animal> {
         FirebaseFirestore.instance.collection("Animais");
 
     Future<bool> cadastrarAnimal() async {
-      setState(() {
-        idd = Random().nextDouble().toString();
-      });
       try {
+        setState(() {
+          idd = Random().nextDouble().toString();
+        });
         AnimalModel animal = AnimalModel(
+          saude: saude!,
+          des: descri.text,
+          necessidade: necessidade!,
+          temperamento: tempera!,
+          endereco: endcontroler.text,
           id: idd,
           tipoDoAnimal: selecionarEspecie!,
           sexo: selecionarSexo!,
@@ -125,33 +135,38 @@ class _AnimalState extends State<Animal> {
               ),
             ),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.camera_alt_outlined),
-                  onPressed: () async {
-                    final ImagePicker _picker = ImagePicker();
-                    XFile? image =
-                        await _picker.pickImage(source: ImageSource.camera);
-                    setState(() {
-                      img = image;
-                    });
-                  },
+            img == null
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.camera_alt_outlined),
+                        onPressed: () async {
+                          final ImagePicker _picker = ImagePicker();
+                          XFile? image = await _picker.pickImage(
+                              source: ImageSource.camera);
+                          setState(() {
+                            img = image;
+                          });
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.file_copy_outlined),
+                        onPressed: () async {
+                          final ImagePicker _picker = ImagePicker();
+                          XFile? image = await _picker.pickImage(
+                              source: ImageSource.gallery);
+                          setState(() {
+                            img = image;
+                          });
+                        },
+                      ),
+                    ],
+                  )
+                : CircleAvatar(
+                  radius: 50,
+                  backgroundImage: FileImage(File(img!.path)),
                 ),
-                IconButton(
-                  icon: Icon(Icons.file_copy_outlined),
-                  onPressed: () async {
-                    final ImagePicker _picker = ImagePicker();
-                    XFile? image =
-                        await _picker.pickImage(source: ImageSource.gallery);
-                    setState(() {
-                      img = image;
-                    });
-                  },
-                ),
-              ],
-            ),
 
             //nome
             CustomTextField(
@@ -160,17 +175,7 @@ class _AnimalState extends State<Animal> {
                 label: "nome",
                 icon: Icons.person),
 
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.grey,
-                ),
-                height: 80,
-                width: double.infinity,
-                child: const Center(child: Text("?")),
-              ),
-            ),
+            Padding(padding: const EdgeInsets.all(8.0)),
 
             //cadastro de animal
 
@@ -288,6 +293,126 @@ class _AnimalState extends State<Animal> {
                 ),
               ],
             ),
+            Text("temperamento"),
+            // //temperamento
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                RadioCustom(
+                    selecionar: tempera,
+                    texto: 'bricalhao',
+                    acao: ((value) {
+                      setState(() {
+                        tempera = value.toString();
+                      });
+                    })),
+                RadioCustom(
+                    selecionar: tempera,
+                    texto: 'timido',
+                    acao: ((value) {
+                      setState(() {
+                        tempera = value.toString();
+                      });
+                    })),
+                RadioCustom(
+                    selecionar: tempera,
+                    texto: 'calmo',
+                    acao: ((value) {
+                      setState(() {
+                        tempera = value.toString();
+                      });
+                    })),
+              ],
+            ),
+
+            Text("saude"),
+
+            // //saude
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                RadioCustom(
+                    selecionar: saude,
+                    texto: 'Vacinado',
+                    acao: ((value) {
+                      setState(() {
+                        saude = value.toString();
+                      });
+                    })),
+                RadioCustom(
+                    selecionar: saude,
+                    texto: 'doente',
+                    acao: ((value) {
+                      setState(() {
+                        saude = value.toString();
+                      });
+                    })),
+                RadioCustom(
+                    selecionar: saude,
+                    texto: 'castrado',
+                    acao: ((value) {
+                      setState(() {
+                        saude = value.toString();
+                      });
+                    })),
+              ],
+            ),
+            Text("necessidade"),
+            RadioListTile(
+                value: 'Medicamento',
+                groupValue: necessidade,
+                title: Text("medicamento"),
+                onChanged: ((value) {
+                  setState(() {
+                    necessidade = value.toString();
+                  });
+                })),
+
+            RadioListTile(
+                value: 'auxilio Financeiro',
+                groupValue: necessidade,
+                title: Text("auxilio Financeiro"),
+                onChanged: ((value) {
+                  setState(() {
+                    necessidade = value.toString();
+                  });
+                })),
+            RadioListTile(
+                value: 'alimento',
+                groupValue: necessidade,
+                title: Text("alimento"),
+                onChanged: ((value) {
+                  setState(() {
+                    necessidade = value.toString();
+                  });
+                })),
+
+            // // necessidade
+
+            //  RadioCustom(
+            //  selecionar: necessidade,
+            //  texto: 'Alimento',
+            //  acao: ((value) {
+            //    setState(() {
+            //      necessidade = value.toString();
+            //    });
+            //  })),
+            //   RadioCustom(
+            //  selecionar: necessidade,
+            //  texto: 'Auxilio Financeiro',
+            //  acao: ((value) {
+            //    setState(() {
+            //      necessidade = value.toString();
+            //    });
+            //  })),
+            //   RadioCustom(
+            //  selecionar: necessidade,
+            //  texto: 'Medicamento',
+            //  acao: ((value) {
+            //    setState(() {
+            //      necessidade = value.toString();
+            //    });
+            //  })),
 
             //doacao
             Text("Doacao"),
@@ -313,6 +438,18 @@ class _AnimalState extends State<Animal> {
                 )
               ],
             ),
+
+            CustomTextField(
+                nometextedintcontroler: endcontroler,
+                teclado: TextInputType.name,
+                label: "endereço",
+                icon: Icons.add_location_alt),
+
+            CustomTextField(
+                nometextedintcontroler: descri,
+                teclado: TextInputType.name,
+                label: "Sobre o animal",
+                icon: Icons.favorite_outline_outlined),
 
             //final do cadastro de animal
 
