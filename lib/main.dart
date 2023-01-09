@@ -32,7 +32,7 @@ void main() async {
           Rotas.cadastro: (context) => const RegistrationPage(),
           Rotas.telaInicial: (context) => const TelaInicial(),
           Rotas.cadastroAnimal: (context) => const Animal(),
-          Rotas.meusAnimais: (context) => Meuanimais(context: context),
+          Rotas.meusAnimais: (context) =>const MyAnimalsScreen(),
         },
       ),
     ),

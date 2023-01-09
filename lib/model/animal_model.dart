@@ -8,8 +8,8 @@ class AnimalModel {
   final String idade;
   final String porte;
   final String dono;
+  final String id;
   final bool doacao;
-
   AnimalModel({
     required this.tipoDoAnimal,
     required this.sexo,
@@ -18,6 +18,7 @@ class AnimalModel {
     required this.porte,
     required this.dono,
     required this.doacao,
+    required this.id
   });
 
   AnimalModel copyWith({
@@ -28,6 +29,7 @@ class AnimalModel {
     String? porte,
     String? dono,
     bool? doacao,
+    String? id
   }) {
     return AnimalModel(
       tipoDoAnimal: tipoDoAnimal ?? this.tipoDoAnimal,
@@ -37,6 +39,7 @@ class AnimalModel {
       porte: porte ?? this.porte,
       dono: dono ?? this.dono,
       doacao: doacao ?? this.doacao,
+      id: id ?? this.id,
     );
   }
 
@@ -49,6 +52,7 @@ class AnimalModel {
       'porte': porte,
       'dono': dono,
       'doacao': doacao,
+      'id':id
     };
   }
 
@@ -61,6 +65,7 @@ class AnimalModel {
       porte: map['porte'] as String,
       dono: map['dono'] as String,
       doacao: map['doacao'] as bool,
+      id: map['id'] as String
     );
   }
 
@@ -71,7 +76,7 @@ class AnimalModel {
 
   @override
   String toString() {
-    return 'AnimalModel(tipoDoAnimal: $tipoDoAnimal, sexo: $sexo, nome: $nome, idade: $idade, porte: $porte, dono: $dono, doacao: $doacao)';
+    return 'AnimalModel(tipoDoAnimal: $tipoDoAnimal, id:$id, sexo: $sexo, nome: $nome, idade: $idade, porte: $porte, dono: $dono, doacao: $doacao)';
   }
 
   @override
@@ -84,6 +89,7 @@ class AnimalModel {
         other.idade == idade &&
         other.porte == porte &&
         other.dono == dono &&
+        other.id == id &&
         other.doacao == doacao;
   }
 
@@ -95,6 +101,7 @@ class AnimalModel {
         idade.hashCode ^
         porte.hashCode ^
         dono.hashCode ^
+        id.hashCode ^
         doacao.hashCode;
   }
 }

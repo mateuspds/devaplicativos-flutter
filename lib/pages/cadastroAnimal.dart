@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devapp/Functon/functios.dart';
 import 'package:devapp/componentes/radio.dart';
@@ -7,7 +8,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-
 import '../componentes/textfield.dart';
 
 class Animal extends StatefulWidget {
@@ -59,6 +59,7 @@ class _AnimalState extends State<Animal> {
   String? porte;
   String? idade;
   bool doacao = false;
+  String idd = "";
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +68,12 @@ class _AnimalState extends State<Animal> {
         FirebaseFirestore.instance.collection("Animais");
 
     Future<bool> cadastrarAnimal() async {
+      setState(() {
+        idd = Random().nextDouble().toString();
+      });
       try {
         AnimalModel animal = AnimalModel(
+          id: idd,
           tipoDoAnimal: selecionarEspecie!,
           sexo: selecionarSexo!,
           nome: nomecontroler.text,
@@ -77,7 +82,7 @@ class _AnimalState extends State<Animal> {
           dono: providerUsur.idUsuario!,
           doacao: doacao,
         );
-        await animais.add(animal.toMap()).then((value) => mandandoImage(value.id));
+        await animais.add(animal.toMap()).then((value) => mandandoImage(idd));
         return true;
       } catch (e) {
         return false;

@@ -1,92 +1,170 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:devapp/model/animal_model.dart';
-import 'package:devapp/pages/animal_details.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
-import '../Functon/functios.dart';
+import '../model/imageUrl.dart';
 
-class Meuanimais extends StatefulWidget {
-  final BuildContext context;
-  const Meuanimais({Key? key, required this.context}) : super(key: key);
+
+class MyAnimalsScreen extends StatefulWidget {
+  const MyAnimalsScreen({Key? key}) : super(key: key);
 
   @override
-  State<Meuanimais> createState() => _MeuanimaisState();
+  State<MyAnimalsScreen> createState() => _MyAnimalsScreenState();
 }
 
-class _MeuanimaisState extends State<Meuanimais> {
-  late Future dados;
-  CollectionReference animais =
-      FirebaseFirestore.instance.collection("Animais");
-  listaanimais(BuildContext context) async {
-    // return FirebaseFirestore.instance
-    //     .collection("Animais")
-    //     .where('dono', isEqualTo: context)
-    //     .get();
-    String id = Provider.of<Usuario>(context).idUsuario!;
-    List<AnimalModel> animais = [];
-    final listaAnimal =
-        await FirebaseFirestore.instance.collection('Animais').get();
-    listaAnimal.docs.forEach((e) {
-      AnimalModel animal = AnimalModel.fromMap(e.data());
-      if (animal.dono == id) {
-        animais.add(animal);
-      }
-    });
-  }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   dados = listaanimais(widget.context);
-  // }
-
-  Stream<QuerySnapshot> _getList() {
-    String id = Provider.of<Usuario>(context).idUsuario!;
-    return FirebaseFirestore.instance
-        .collection('Animais')
-        .where('dono', isEqualTo: id)
-        .snapshots();
-  }
-
+class _MyAnimalsScreenState extends State<MyAnimalsScreen> {
   @override
   Widget build(BuildContext context) {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    final Storage storage = Storage();
+
     return Scaffold(
-      appBar: AppBar(),
-      body: Container(
-        child: StreamBuilder<QuerySnapshot>(
-          stream: _getList(),
-          builder: (_, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.none:
-              case ConnectionState.waiting:
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              case ConnectionState.active:
-              case ConnectionState.done:
-                return ListView.builder(
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (_, index) {
-                    final DocumentSnapshot doc = snapshot.data!.docs[index];
-                    return ListTile(
-                      title: Text(
-                        doc['nome'],
-                      ),
-                      subtitle: Text('Descrição'),
-                      trailing: Icon(Icons.arrow_forward),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AnimalDetails(index)));
-                      },
-                    );
-                  },
-                );
-            }
-          },
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          "Meus Animais",
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: 'Roboto',
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent),
+        
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection("Animais")
+                  .where("dono", isEqualTo: user?.uid)
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  final snap = snapshot.data!.docs;
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    itemCount: snap.length,
+                    itemBuilder: (context, index) {
+                      return Center(
+                        child: Column(
+                          children: [
+                            //enter
+                            const SizedBox(height: 20),
+                            Container(
+                              width: 344,
+                              height: 264,
+                              decoration: BoxDecoration(
+                               
+                                borderRadius: BorderRadius.circular(5),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    spreadRadius: -1,
+                                    blurRadius: 1,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              alignment: Alignment.topLeft,
+                              child: Column(
+                                children: [
+                                  const SizedBox(height: 5),
+                                  Row(
+                                    children: [
+                                      const SizedBox(width: 10),
+                                      Text(
+                                        snap[index]['nome'],
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          color:
+                                              Color.fromARGB(255, 67, 67, 67),
+                                          fontFamily: 'Roboto',
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      const Icon(Icons.error),
+                                      const SizedBox(width: 10),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                  FutureBuilder(
+                                    future: storage.downloadURL(snap[index]['id']),
+                                    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                      if(snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+                                        return Container(
+                                          width: 344,
+                                          height: 183,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: NetworkImage(snapshot.data!),
+                                              fit: BoxFit.cover
+                                            )
+                                          ),
+                                          child: Material(
+                                            color: Colors.transparent,
+                                            child: InkWell(
+                                              onTap: () {}
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                      
+                                      return const SizedBox(
+                                        width: 344,
+                                        height: 183,
+                                        child: Center(
+                                          child: CircularProgressIndicator(),
+                                        ) 
+                                      );
+                                    }
+                                  ),
+                                  const SizedBox(height: 5),
+                                  const Center(
+                                    child: Text(
+                                      "3 NOVOS INTERESSADOS",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Color.fromARGB(255, 67, 67, 67),
+                                        fontFamily: 'Roboto',
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  const Center(
+                                    child: Text(
+                                      "APADRINHAMENTO | AJUDA",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Color.fromARGB(255, 67, 67, 67),
+                                        fontFamily: 'Roboto',
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                } else {
+                  return const SizedBox();
+                }
+              },
+            )
+          ],
         ),
       ),
     );

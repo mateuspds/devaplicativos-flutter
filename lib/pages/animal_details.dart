@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 
-class AnimalDetails extends StatelessWidget {
-  final int index;
-  AnimalDetails(this.index);
+class DelhatlheAnimal extends StatelessWidget {
+  Map animal;
+   DelhatlheAnimal({Key? key, required this.animal}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('teste')),
+      appBar: AppBar(
+        title: Text(animal['nome']),
+      ),
+      body: Container(
+        child: Column(
+          
+        ),
+      ),
     );
   }
 }

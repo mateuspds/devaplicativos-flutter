@@ -69,6 +69,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         fontSize: 25),
                   ),
                 ),
+              //imagem da pessoa
+
+              ///falta colocar
+
+
+
+                SizedBox(height: 8),
                 CustomTextField(
                   nometextedintcontroler: nome,
                   teclado: TextInputType.name,
