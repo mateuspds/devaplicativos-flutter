@@ -4,6 +4,7 @@ import 'package:devapp/pages/meusAnimais.dart';
 import 'package:devapp/pages/registration_page.dart';
 import 'package:devapp/pages/telaInicial.dart';
 import 'package:devapp/routes/rotas.dart';
+import 'package:devapp/services/firebase_messaging_service.dart';
 import 'package:devapp/services/notification_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +13,14 @@ import 'package:provider/provider.dart';
 
 import 'pages/home.dart';
 
+
+// checkNotifications() async {
+//   await Provider.of<NotificationService>(context, listen: false).checkForNotifications();
+// }
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await FirebaseMessagingService.initialize();
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: Colors.transparent));
 
@@ -24,7 +30,12 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => Usuario(),
         ),
-        Provider<NotificationService>(create: (context) => NotificationService())
+        Provider<NotificationService>(
+            create: (context) => NotificationService(),
+        ),
+        Provider<FirebaseMessagingService>(
+            create:(context) => FirebaseMessagingService(context.read<NotificationService>()),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

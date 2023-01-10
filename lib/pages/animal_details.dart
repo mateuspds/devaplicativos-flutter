@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devapp/services/notification_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 class DelhatlheAnimal extends StatelessWidget {
   String url;
+  CollectionReference animais =
+  FirebaseFirestore.instance.collection("Animais");
   var animal;
   DelhatlheAnimal({Key? key, required this.animal, required this.url})
       : super(key: key);
@@ -90,9 +94,13 @@ class DelhatlheAnimal extends StatelessWidget {
             Container(
               width: double.infinity,
               color: Colors.amber[700],
-              child: TextButton(onPressed: (){Provider.of<NotificationService>(context, listen: false).showNotification(
-                  CustomNotification(id: 1, title: 'Teste', body: 'Acesse o App', payload: '/')
-              );}, child: Text('pretendo adotarr'))),
+              child: TextButton(onPressed: (){
+                Provider.of<NotificationService>(context, listen: false).showNotification(
+                  CustomNotification(id: 1, title: 'Teste', body: 'Animal Adotado', payload: '/'),
+                );
+                animais.doc(animal.id).update({'doacao': false,'dono': FirebaseAuth.instance.currentUser?.uid});
+
+                }, child: Text('pretendo adotarr'))),
           ],
         ),
       ),

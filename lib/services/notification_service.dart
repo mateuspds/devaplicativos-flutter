@@ -56,7 +56,7 @@ class NotificationService{
 
 
   showNotification(CustomNotification notification) {
-    final date = DateTime.now().add(const Duration(seconds: 5));
+    final date = DateTime.now().add(const Duration(seconds: 2));
     androidDetails = const AndroidNotificationDetails(
       'teste_notificacao_x',
       'titulo_x',
