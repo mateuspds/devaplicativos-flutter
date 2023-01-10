@@ -43,6 +43,11 @@ dependencies:
   uuid: ^3.0.7
   firebase_storage: ^11.0.10
   image_picker: ^0.8.6
+  flutter_local_notifications: ^9.4.0
+  timezone: ^0.8.0
+  flutter_native_timezone: ^2.0.0
+  firebase_messaging: ^14.2.1
+
   
 
 

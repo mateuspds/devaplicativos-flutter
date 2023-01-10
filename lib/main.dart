@@ -4,6 +4,7 @@ import 'package:devapp/pages/meusAnimais.dart';
 import 'package:devapp/pages/registration_page.dart';
 import 'package:devapp/pages/telaInicial.dart';
 import 'package:devapp/routes/rotas.dart';
+import 'package:devapp/services/notification_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,7 +23,8 @@ void main() async {
       providers: [
         ChangeNotifierProvider(
           create: (_) => Usuario(),
-        )
+        ),
+        Provider<NotificationService>(create: (context) => NotificationService())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

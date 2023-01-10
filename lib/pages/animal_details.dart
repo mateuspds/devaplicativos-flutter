@@ -1,10 +1,19 @@
+import 'package:devapp/services/notification_service.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-
 class DelhatlheAnimal extends StatelessWidget {
   String url;
   var animal;
   DelhatlheAnimal({Key? key, required this.animal, required this.url})
       : super(key: key);
+
+  _pretendoAdotar(BuildContext context) {
+    //Provider.of<NotificationService>( listen: false).
+
+    Provider.of<NotificationService>(context, listen: false).showNotification(
+        CustomNotification(id: 1, title: 'Teste', body: 'Acesse o App', payload: '/')
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,10 +90,13 @@ class DelhatlheAnimal extends StatelessWidget {
             Container(
               width: double.infinity,
               color: Colors.amber[700],
-              child: TextButton(onPressed: (){}, child: Text('pretendo adotar')))
+              child: TextButton(onPressed: (){Provider.of<NotificationService>(context, listen: false).showNotification(
+                  CustomNotification(id: 1, title: 'Teste', body: 'Acesse o App', payload: '/')
+              );}, child: Text('pretendo adotarr'))),
           ],
         ),
       ),
     );
   }
+
 }
