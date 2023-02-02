@@ -1,5 +1,6 @@
 import 'package:devapp/Functon/functios.dart';
 import 'package:devapp/pages/cadastroAnimal.dart';
+import 'package:devapp/pages/chat_screen.dart';
 import 'package:devapp/pages/meusAnimais.dart';
 import 'package:devapp/pages/registration_page.dart';
 import 'package:devapp/pages/telaInicial.dart';
@@ -32,7 +33,8 @@ void main() async {
           Rotas.cadastro: (context) => const RegistrationPage(),
           Rotas.telaInicial: (context) => const TelaInicial(),
           Rotas.cadastroAnimal: (context) => const Animal(),
-          Rotas.meusAnimais: (context) =>const MyAnimalsScreen(),
+          Rotas.meusAnimais: (context) => const MyAnimalsScreen(),
+          Rotas.telaChat: (context) => const ChatScreen(),
         },
       ),
     ),

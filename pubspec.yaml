@@ -43,6 +43,7 @@ dependencies:
   uuid: ^3.0.7
   firebase_storage: ^11.0.10
   image_picker: ^0.8.6
+  ably_flutter_plugin: ^1.0.1
   
 
 

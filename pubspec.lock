@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.12"
+  ably_flutter_plugin:
+    dependency: "direct main"
+    description:
+      name: ably_flutter_plugin
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   async:
     dependency: transitive
     description:
@@ -289,6 +296,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.2"
+  pedantic:
+    dependency: transitive
+    description:
+      name: pedantic
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.11.1"
   plugin_platform_interface:
     dependency: transitive
     description:

@@ -41,6 +41,13 @@ class _MyAnimalsScreenState extends State<TelaInicial> {
               onTap: () {
                 Navigator.of(context).pushNamed(Rotas.meusAnimais);
               },
+            ),
+            ListTile(
+              leading: const Icon(Icons.chat),
+              title: const Text("Chat"),
+              onTap: () {
+                Navigator.of(context).pushNamed(Rotas.telaChat);
+              },
             )
           ],
         ),
@@ -140,8 +147,10 @@ class _MyAnimalsScreenState extends State<TelaInicial> {
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             DelhatlheAnimal(
-                                                              url: snapshot.data!,
-                                                              animal: snap[index],
+                                                              url: snapshot
+                                                                  .data!,
+                                                              animal:
+                                                                  snap[index],
                                                             )));
                                               }),
                                             ),
