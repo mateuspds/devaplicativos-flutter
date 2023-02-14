@@ -56,17 +56,19 @@ class _HomeState extends State<Home> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Center(
-            child: SizedBox(
-              height: media.height * 0.2,
-              width: media.width * 0.4,
-              child: const Text(
-                "Bem vindo ",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    fontSize: 25),
+          Expanded(
+            child: Center(
+              child: SizedBox(
+                height: media.height * 0.2,
+                width: media.width * 0.4,
+                child: const Text(
+                  "Bem vindo ",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
+                      fontSize: 25),
+                ),
               ),
             ),
           ),
@@ -92,7 +94,7 @@ class _HomeState extends State<Home> {
                   BoxDecoration(borderRadius: BorderRadius.circular(10)),
               child: TextButton(
                 style: TextButton.styleFrom(
-                    backgroundColor: Colors.black,
+                    backgroundColor: Colors.blue,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.all(10),
                     textStyle: const TextStyle(fontSize: 22)),
@@ -131,7 +133,7 @@ class _HomeState extends State<Home> {
                   BoxDecoration(borderRadius: BorderRadius.circular(10)),
               child: TextButton(
                 style: TextButton.styleFrom(
-                    backgroundColor: Colors.black,
+                    backgroundColor: Colors.blue,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.all(10),
                     textStyle: const TextStyle(fontSize: 22)),

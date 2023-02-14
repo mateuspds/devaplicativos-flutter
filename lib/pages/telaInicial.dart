@@ -20,14 +20,12 @@ class TelaInicial extends StatefulWidget {
 class _MyAnimalsScreenState extends State<TelaInicial> {
   @override
   Widget build(BuildContext context) {
-
 //
- 
-final FirebaseAuth auth = FirebaseAuth.instance;
+
+    final FirebaseAuth auth = FirebaseAuth.instance;
     final User? user = auth.currentUser;
 
 //
-
 
     final email = Provider.of<Usuario>(context);
     final Storage storage = Storage();
@@ -77,7 +75,7 @@ final FirebaseAuth auth = FirebaseAuth.instance;
 
                                         return Container();
                                       }),
-                                      SizedBox(height: 5),
+                                  SizedBox(height: 5),
                                   Text(snap[index]['nome'])
                                 ],
                               );
@@ -106,37 +104,40 @@ final FirebaseAuth auth = FirebaseAuth.instance;
             ),
             //
 
-             ListTile(
-            title:  Text('Chat'),
-            onTap: () {
-              
+            ListTile(
+              leading: const Icon(Icons.chat),
+              title: Text('Chat'),
+              onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const HomeChatScreen()),
+                      builder: (context) => const HomeChatScreen()),
                 );
-              
-            },
-          ),
-          // ExpansionTile(
-          //   leading: const Icon(Icons.pets),
-          //   title: const Text('Atalhos'),
-          //   textColor: const Color.fromARGB(255, 67, 67, 67),
-          //   collapsedBackgroundColor: const Color.fromARGB(255, 254, 226, 155),
-          //   //backgroundColor: const Color.fromARGB(255, 254, 226, 155),
-          //   trailing: Icon(
-          //     _customTileExpanded
-          //         ? Icons.arrow_drop_down
-          //         : Icons.arrow_drop_down,
-          //   ),
-        
-            
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: Text('Sair'),
+              onTap: () {
+                Navigator.of(context).pushNamed(Rotas.home);
+              },
+            ),
+            // ExpansionTile(
+            //   leading: const Icon(Icons.pets),
+            //   title: const Text('Atalhos'),
+            //   textColor: const Color.fromARGB(255, 67, 67, 67),
+            //   collapsedBackgroundColor: const Color.fromARGB(255, 254, 226, 155),
+            //   //backgroundColor: const Color.fromARGB(255, 254, 226, 155),
+            //   trailing: Icon(
+            //     _customTileExpanded
+            //         ? Icons.arrow_drop_down
+            //         : Icons.arrow_drop_down,
+            //   ),
+
             // children: <Widget>[
             //   const Divider(
             //     endIndent: 100,
             //   ),
-
-
 
             //
           ],
@@ -190,7 +191,7 @@ final FirebaseAuth auth = FirebaseAuth.instance;
                                 children: [
                                   const SizedBox(height: 5),
                                   Container(
-                                    color: Colors.amber,
+                                    color: Colors.blue,
                                     height: 35,
                                     width: double.infinity,
                                     child: Row(
@@ -237,12 +238,12 @@ final FirebaseAuth auth = FirebaseAuth.instance;
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             DelhatlheAnimal(
-                                                              
                                                               url: snapshot
                                                                   .data!,
                                                               animal:
                                                                   snap[index],
-                                                              dono: snap[index]['dono'],
+                                                              dono: snap[index]
+                                                                  ['dono'],
                                                             )));
                                               }),
                                             ),

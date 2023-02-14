@@ -128,15 +128,15 @@ class _DelhatlheAnimalState extends State<DelhatlheAnimal> {
               children: [
                 Text(
                   "sexo",
-                  style: TextStyle(color: Colors.amber[700], fontSize: 16),
+                  style: TextStyle(color: Colors.blue[700], fontSize: 16),
                 ),
                 Text(
                   "Porte",
-                  style: TextStyle(color: Colors.amber[700], fontSize: 16),
+                  style: TextStyle(color: Colors.blue[700], fontSize: 16),
                 ),
                 Text(
                   "Idade",
-                  style: TextStyle(color: Colors.amber[700], fontSize: 16),
+                  style: TextStyle(color: Colors.blue[700], fontSize: 16),
                 ),
               ],
             ),
@@ -156,7 +156,7 @@ class _DelhatlheAnimalState extends State<DelhatlheAnimal> {
                 children: [
                   Text(
                     "localização",
-                    style: TextStyle(color: Colors.amber[700], fontSize: 16),
+                    style: TextStyle(color: Colors.blue[700], fontSize: 16),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -171,7 +171,7 @@ class _DelhatlheAnimalState extends State<DelhatlheAnimal> {
             //botao pretendo adotar o animal
             Container(
               width: double.infinity,
-              color: Colors.amber[700],
+              color: Colors.blue[700],
               child: TextButton(
                 onPressed: () async {
                   try {
@@ -190,7 +190,7 @@ class _DelhatlheAnimalState extends State<DelhatlheAnimal> {
                     //       token: "hhhh"),
                     // );
                     final User? user = FirebaseAuth.instance.currentUser;
-                  var a = await  animais.doc(widget.animal.id);
+                    var a = await animais.doc(widget.animal.id);
                     var db = FirebaseFirestore.instance;
                     await db.collection('interessados').doc().set({
                       'interessadoId': user?.uid,
@@ -211,7 +211,7 @@ class _DelhatlheAnimalState extends State<DelhatlheAnimal> {
                     ? Center(
                         child: CircularProgressIndicator(),
                       )
-                    : Text('pretendo adotarr'),
+                    : Text('Pretendo adotar'),
               ),
             ),
           ],
